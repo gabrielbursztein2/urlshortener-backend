@@ -9,5 +9,5 @@ en:
     errors:
       invalid_content_type: Invalid content type header
       missing_param: A required param is missing
-      not_found: Couldn't find the record
+      not_found: Couldn't find the URL
       server: An error ocurred

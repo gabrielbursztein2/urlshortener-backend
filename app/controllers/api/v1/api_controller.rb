@@ -15,12 +15,17 @@ module Api
       rescue_from ActionController::RoutingError,      with: :render_not_found
       rescue_from AbstractController::ActionNotFound,  with: :render_not_found
       rescue_from ActionController::ParameterMissing,  with: :render_parameter_missing
+      rescue_from AlreadyCreated,                      with: :render_custom_exception
 
       def status
         render json: { online: true }
       end
 
       private
+
+      def render_custom_exception(exception)
+        render json: { error: exception.message }, status: :bad_request
+      end
 
       def render_error(exception)
         raise exception if Rails.env.test?
