@@ -15,7 +15,6 @@ module Api
       rescue_from ActionController::RoutingError,      with: :render_not_found
       rescue_from AbstractController::ActionNotFound,  with: :render_not_found
       rescue_from ActionController::ParameterMissing,  with: :render_parameter_missing
-      rescue_from AlreadyCreated,                      with: :render_custom_exception
 
       def status
         render json: { online: true }
