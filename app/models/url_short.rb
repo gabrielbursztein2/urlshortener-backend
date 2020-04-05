@@ -1,17 +1,17 @@
 class UrlShort < ApplicationRecord
   TOP_AMOUNT = ENV['TOP_AMOUNT'].to_i
 
-  validates :url, :short_url, presence: true, uniqueness: true
-  validates :visits, presence: true
+  validates :url, presence: true, uniqueness: true
+  validates :visits, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
-  before_validation :generate_short_url
+  after_create :generate_short_url
 
   private
 
   def generate_short_url
-    self.short_url = loop do
-      token = SecureRandom.urlsafe_base64(5, false)
-      break token unless UrlShort.exists?(short_url: token)
-    end
+    range = (('a'..'z').to_a << ('A'..'Z').to_a << (1..9).to_a).flatten
+    characters = (id.to_f/range.size).ceil
+    self.short_url = range.combination(characters).to_a[id].join
+    save!
   end
 end
