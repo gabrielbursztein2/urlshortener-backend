@@ -11,7 +11,8 @@ class UrlShort < ApplicationRecord
   def generate_short_url
     range = (('a'..'z').to_a << ('A'..'Z').to_a << (1..9).to_a).flatten
     characters = (id.to_f/range.size).ceil
-    self.short_url = range.combination(characters).to_a[id].join
+    position = id % range.size
+    self.short_url = range.combination(characters).to_a[position].join
     save!
   end
 end

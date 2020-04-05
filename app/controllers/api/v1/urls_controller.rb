@@ -4,7 +4,7 @@ module Api
       skip_before_action :authenticate_user!
 
       def create
-        @url_short = UrlShort.find_or_create_by(url: params[:url]).decorate
+        @url_short = UrlShort.find_or_create_by(url: params[:url]&.delete(' ')).decorate
       end
 
       def index
